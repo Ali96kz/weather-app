@@ -24,13 +24,23 @@ public class Main {
                 "    \n" +
                 "}";
 
+
         ResponseEntity<String> windResponseEntity = restTemplate.postForEntity("https://api.novaposhta.ua/v2.0/json/",
                 json, String.class);
 
-
-
         String body = windResponseEntity.getBody();
         System.out.println(body);
+
+
+        PoshtaRequest poshtaRequest = new PoshtaRequest();
+
+        ResponseEntity<ResponseFromPoshta> responseFromPoshtaResponseEntity = restTemplate.postForEntity("https://api.novaposhta.ua/v2.0/json/",
+                poshtaRequest, ResponseFromPoshta.class);
+
+        ResponseFromPoshta body1 = responseFromPoshtaResponseEntity.getBody();
+
+
+
     }
 }
 
