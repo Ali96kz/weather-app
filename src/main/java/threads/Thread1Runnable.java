@@ -12,10 +12,17 @@ public class Thread1Runnable implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < 100_000; i++) {
-            System.out.println(name + " " + entity.geta());
-            entity.incrementA();
+        synchronized (this) {
+            try {
+                wait();
 
+                for (int i = 0; i < 100_000; i++) {
+                    System.out.println(name + " " + entity.geta());
+                    entity.incrementA();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
