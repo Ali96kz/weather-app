@@ -19,17 +19,17 @@ public class TreeDemo {
 
     public void valueByLevel(Tree tree) {
         if (!isLeaf(tree.r)) {
-            integers.add(tree.a);
+            integers.add(tree.value);
             valueByLevel(tree.r);
         } else {
-            integers.add(tree.a);
+            integers.add(tree.value);
         }
 
         if (!isLeaf(tree.l)) {
-            integers.add(tree.a);
+            integers.add(tree.value);
             valueByLevel(tree.l);
         } else {
-            integers.add(tree.a);
+            integers.add(tree.value);
         }
     }
 

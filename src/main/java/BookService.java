@@ -23,15 +23,29 @@ public class BookService {
         return byId;
     }
 
-    public void deleteAllLowerThan(int price){
+    public void deleteAllLowerThan(int price) {
         List<Book> books = bookDao.findAll();
 
         for (Book book : books) {
-            if(book.getCost() < price) {
+            if (book.getCost() < price) {
                 bookDao.deleteByName(book.getName());
             }
         }
     }
+
+    public void deleteWithNameStart(String startBookName) {
+        if(startBookName == null || startBookName.isEmpty()) {
+            return;
+        }
+        List<Book> books = bookDao.findAll();
+
+        for (Book book : books) {
+            if (book.getName().startsWith(startBookName)) {
+                bookDao.deleteByName(book.getName());
+            }
+        }
+    }
+
 
     public boolean save(Book book) {
         try {

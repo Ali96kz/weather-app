@@ -1,5 +1,12 @@
 public class Tree {
-    int a;
+    int value;
+
+    public Tree(int a) {
+        this.value = a;
+    }
+
+    public Tree() {
+    }
 
     public Tree r;
     public Tree l;

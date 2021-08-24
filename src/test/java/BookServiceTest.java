@@ -104,20 +104,65 @@ public class BookServiceTest {
 
     @Test
     public void delete() {
-        Book book1 = new Book("test-1", 200, false);
-        Book book2 = new Book("test-2", 200, false);
         Book book3 = new Book("test-3", 200, false);
         Book book4 = new Book("test-4", 300, false);
         Book book5 = new Book("test-5", 400, false);
 
-        List<Book> list = Arrays.asList(book1, book2, book3, book4, book5);
+        List<Book> list = Arrays.asList( book3, book4, book5);
 
-        when(bookDao.findAll()).thenReturn(list);
+        when(bookDao.findAll())
+                .thenReturn(list);
 
         bookService.deleteAllLowerThan(300);
 
-        verify(bookDao, times(1)).deleteByName("test-1");
+        verify(bookDao, times(1)).deleteByName("test-3");
+        verify(bookDao, times(0)).deleteByName("test-4");
+        verify(bookDao, times(0)).deleteByName("test-5");
+    }
+
+    @Test
+    public void deleteTestByNameIfStartWithDifferentName() {
+        Book book1 = new Book("3test", 400, false);
+        Book book2 = new Book("test3", 400, false);
+
+        List<Book> list = Arrays.asList( book1, book2);
+
+        when(bookDao.findAll()).thenReturn(list);
+
+        bookService.deleteWithNameStart("test");
+
+        verify(bookDao, times(1)).deleteByName("test3");
+        verify(bookDao, times(0)).deleteByName("3test");
     }
 
 
+    @Test
+    public void deleteTestByNameIfContainNameInMiddle() {
+        Book book1 = new Book("test3", 400, false);
+        Book book2 = new Book("23213test233", 400, false);
+
+        List<Book> list = Arrays.asList( book1, book2);
+
+        when(bookDao.findAll()).thenReturn(list);
+
+        bookService.deleteWithNameStart("test");
+
+        verify(bookDao, times(1)).deleteByName("test3");
+        verify(bookDao, times(0)).deleteByName("3test");
+    }
+
+    @Test
+    public void deleteTestByNameIfEmptyStringPassed() {
+        Book book1 = new Book("3test", 400, false);
+        Book book2 = new Book("test3", 400, false);
+
+        List<Book> list = Arrays.asList( book1, book2);
+
+        when(bookDao.findAll()).thenReturn(list);
+
+        bookService.deleteWithNameStart("");
+
+        verify(bookDao, times(0)).deleteByName("test3");
+        verify(bookDao, times(0)).deleteByName("3test");
+    }
 }
